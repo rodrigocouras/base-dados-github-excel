@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulário GitHub</title>
+</head>
+<body>
+  <h2>Adicionar à base de dados</h2>
+  <form id="formulario">
+    <input type="text" name="nome" placeholder="Nome" required><br>
+    <input type="number" name="idade" placeholder="Idade" required><br>
+    <input type="email" name="email" placeholder="Email" required><br>
+    <button type="submit">Adicionar</button>
+  </form>
+
+  <script>
+    const form = document.getElementById("formulario");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const dados = {
+        nome: form.nome.value,
+        idade: form.idade.value,
+        email: form.email.value,
+      };
+
+      const resposta = await fetch("http://localhost:5000/adicionar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dados),
+      });
+
+      const resultado = await resposta.json();
+      alert(resultado.message);
+
+      form.reset();
+    });
+  </script>
+</body>
+</html>
